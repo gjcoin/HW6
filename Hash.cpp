@@ -19,6 +19,7 @@ void printHashtable(vector<int> &my_vector, char * my_file_name)
 
 bool quadraticProbing(vector<int> &hash_table, unsigned int key, unsigned int magic, int val)
 {
+	//Use long do to accommodate larger values
 	unsigned long long max = hash_table.size();
 	int i;
 	for (i = 1; i < (max - 1) / 2; i++)
@@ -53,6 +54,7 @@ int getDigit(int digit, int input)
 	return (input/divisor[9-digit]) % 10; //Move desired digit into 1s place and discard the rest
 }
 
+//Extract 3rd, 5th, 7th, and 8th digits from input
 int extractDigits(int input)
 {
 	return 1000 * getDigit(3, input) + 100 * getDigit(5, input) + 10 * getDigit(7, input) + getDigit(8, input);
@@ -63,7 +65,7 @@ bool hashFile(char* filepath, vector<int> &hash_table,int magic)  //gets file fr
 	char lineData[11]; //Each social is 9 characters long (+comma and null terminator = 11)
 	int number = 0; //ciel(ln(999,999,999)/ln(2)) --> requires 29 bits, integer is 32
 	int key = 0;
-	int value_number;
+	//int value_number = 0;
 	ifstream in;
 	in.open(filepath);
 	if (!in.is_open())
@@ -71,11 +73,10 @@ bool hashFile(char* filepath, vector<int> &hash_table,int magic)  //gets file fr
 		cout << "I cannot find the file.\n";
 		return false;
 	}
-	value_number = 0;
 	while (in.peek() != EOF)
 	{
-		value_number++;
-		if (value_number % 100 == 0) { cout << value_number << endl; cout.flush(); }
+		/*value_number++; //this is a test that displays progress through the file
+		if (value_number % 100 == 0) { cout << value_number << endl; cout.flush(); }*/
 		in.getline(lineData, 10, ','); //Read 10 characters or until comma is reached
 		number = atoi(lineData);
 		if ((number < 100000000) || (number > 9999999999))
