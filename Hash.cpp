@@ -60,7 +60,7 @@ int extractDigits(int input)
 
 bool hashFile(char* filepath, vector<int> &hash_table,int magic)  //gets file from filepath
 {
-	char lineData[11]; //Each social is 9 characters long
+	char lineData[11]; //Each social is 9 characters long (+comma and null terminator = 11)
 	int number = 0; //ciel(ln(999,999,999)/ln(2)) --> requires 29 bits, integer is 32
 	int key = 0;
 	int value_number;
@@ -76,7 +76,7 @@ bool hashFile(char* filepath, vector<int> &hash_table,int magic)  //gets file fr
 	{
 		value_number++;
 		if (value_number % 100 == 0) { cout << value_number << endl; cout.flush(); }
-		in.getline(lineData, 10, ','); //Read 9 characters or until comma is reached
+		in.getline(lineData, 10, ','); //Read 10 characters or until comma is reached
 		number = atoi(lineData);
 		if ((number < 100000000) || (number > 9999999999))
 		{
@@ -105,8 +105,9 @@ int main()
 	cout << "Please enter a number between 1 and 450 million: ";
 	cin >> magic;
 	hash_size = (magic / 2) - 1;
-	//test:
+	/*test:
 	if (extractDigits(123456789) != 3578) { cout << "I think I better think it out again" << endl; system("PAUSE"); return -2; }
+	*/
 	if (magic > 450000000 || magic < 1000000)
 	{
 		cout << "Invalid input." << endl; 
